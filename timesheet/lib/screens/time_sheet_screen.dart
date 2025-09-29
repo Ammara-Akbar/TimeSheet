@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:timesheet/screens/home_screen.dart';
 import 'package:timesheet/utils/colors.dart';
 
+import 'notification_screen.dart';
+
 class TimesheetScreen extends StatefulWidget {
   const TimesheetScreen({super.key});
 
@@ -42,11 +44,19 @@ class _TimesheetScreenState extends State<TimesheetScreen> {
             ),
           ),
           actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 12),
-              child: Image.asset(
-                "assets/ic_notification.png",
-                height: 22,
+            GestureDetector(
+              onTap: (){
+                   Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const NotificationsScreen()),
+              );
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(right: 12),
+                child: Image.asset(
+                  "assets/ic_notification.png",
+                  height: 22,
+                ),
               ),
             )
           ],

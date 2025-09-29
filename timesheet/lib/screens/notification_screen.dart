@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:timesheet/utils/colors.dart';
 
+import 'home_screen.dart';
+
 class NotificationsScreen extends StatelessWidget {
   const NotificationsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
+      return WillPopScope(
       onWillPop: () async {
-        Navigator.pop(context);
+        if (Navigator.of(context).canPop()) {
+          Navigator.of(context).pop(); // go back normally
+        } else {
+          // if no previous screen, go to HomeScreen
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const HomeScreen()),
+          );
+        }
         return false;
       },
       child: Scaffold(
@@ -50,7 +60,7 @@ class NotificationsScreen extends StatelessWidget {
               buttonText: "Add Manual Time",
             ),
             _divider(),
-
+      
             // 🔹 Notification 2
             _buildNotificationItem(
               icon: "assets/rocket.png",
@@ -59,7 +69,7 @@ class NotificationsScreen extends StatelessWidget {
               time: "8h",
             ),
             _divider(),
-
+      
             // 🔹 Notification 3
             _buildNotificationItem(
               customIcon: Image.asset(
