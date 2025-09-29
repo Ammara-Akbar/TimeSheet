@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:timesheet/screens/auth_screens/reset_password_screen.dart';
-import 'package:timesheet/screens/home_screen.dart';
+import 'package:timesheet/screens/auth_screens/login_screen.dart';
 import 'package:timesheet/utils/colors.dart';
 
 class ResetSuccessfully extends StatefulWidget {
@@ -54,7 +53,7 @@ class _ResetSuccessfullyState extends State<ResetSuccessfully> {
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (_) => const HomeScreen()),
+                      MaterialPageRoute(builder: (_) => const LoginScreen()),
                     );
                   },
                   style: ElevatedButton.styleFrom(

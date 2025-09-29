@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timesheet/screens/select_project_screen.dart';
 import 'package:timesheet/utils/colors.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -39,116 +40,115 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // Clock out confirmation
-void _clockOut() async {
-  final confirm = await showDialog(
-    context: context,
-    builder: (context) => Dialog(
-      backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-      insetPadding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // ✅ Title with back arrow
-            Row(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.black),
-                  onPressed: () => Navigator.pop(context, false),
-                ),
-                const Expanded(
-                  child: Center(
-                    child: Text(
-                      "Clock Out",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 40), // balance for centering
-              ],
-            ),
-
-            const SizedBox(height: 8),
-
-            // ✅ Content
-            const Text(
-              "Are you sure you want to clock out? Once clocked out the time will be added to the Timesheet and cannot be changed.",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.black87,
-              ),
-            ),
-
-            const SizedBox(height: 16),
-            const Divider(height: 1, color: Colors.black26),
-            const SizedBox(height: 16),
-
-            // ✅ Buttons row
-            Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: AppColors.primaryColor),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                    ),
+  void _clockOut() async {
+    final confirm = await showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+        insetPadding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // ✅ Title with back arrow
+              Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.black),
                     onPressed: () => Navigator.pop(context, false),
-                    child: const Text(
-                      "Cancel",
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.primaryColor,
+                  ),
+                  const Expanded(
+                    child: Center(
+                      child: Text(
+                        "Clock Out",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),
+                  const SizedBox(width: 40), // balance for centering
+                ],
+              ),
+
+              const SizedBox(height: 8),
+
+              // ✅ Content
+              const Text(
+                "Are you sure you want to clock out? Once clocked out the time will be added to the Timesheet and cannot be changed.",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.black87,
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                    ),
-                    onPressed: () => Navigator.pop(context, true),
-                    child: const Text(
-                      "Clock Out",
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
+              ),
+
+              const SizedBox(height: 16),
+              const Divider(height: 1, color: Colors.black26),
+              const SizedBox(height: 16),
+
+              // ✅ Buttons row
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: AppColors.primaryColor),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                      ),
+                      onPressed: () => Navigator.pop(context, false),
+                      child: const Text(
+                        "Cancel",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.primaryColor,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primaryColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                      ),
+                      onPressed: () => Navigator.pop(context, true),
+                      child: const Text(
+                        "Clock Out",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
-    ),
-  );
+    );
 
-  if (confirm == true) {
-    setState(() {
-      _status = WorkStatus.notClockedIn;
-      _clockOutTime = DateTime.now();
-    });
+    if (confirm == true) {
+      setState(() {
+        _status = WorkStatus.notClockedIn;
+        _clockOutTime = DateTime.now();
+      });
+    }
   }
-}
-
 
   String _getWorkedTime() {
     if (_clockInTime == null) return "--:--:--";
@@ -308,10 +308,16 @@ void _clockOut() async {
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(color: AppColors.primaryColor),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6)),
+                      borderRadius: BorderRadius.circular(8)),
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const SelectProjectScreen()),
+                  );
+                },
                 child: const Text(
                   "Projects",
                   style: TextStyle(fontSize: 16, color: AppColors.primaryColor),
@@ -324,7 +330,7 @@ void _clockOut() async {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primaryColor,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6)),
+                      borderRadius: BorderRadius.circular(8)),
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
                 onPressed: () {},
