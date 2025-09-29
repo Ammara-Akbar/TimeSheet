@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:timesheet/screens/auth_screens/reset_password_screen.dart';
+import 'package:timesheet/screens/home_screen.dart';
 import 'package:timesheet/utils/colors.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -123,10 +125,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ? AppColors.primaryColor
                                 : Colors.white,
                             border: Border.all(
-                              color:  rememberMe
-                                ? AppColors.primaryColor
-                                : Colors.grey.shade400,
-                              
+                              color: rememberMe
+                                  ? AppColors.primaryColor
+                                  : Colors.grey.shade400,
                             ),
                             borderRadius: BorderRadius.circular(
                                 4), // square with slight round
@@ -147,12 +148,19 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ],
                   ),
-                  Text(
-                    "Forgot password",
-                    style: TextStyle(
-                      color: AppColors.primaryColor,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (_) => const ResetPasswordScreen()),
+                    );
+                    },
+                    child: Text(
+                      "Forgot password",
+                      style: TextStyle(
+                          color: AppColors.primaryColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],
@@ -164,14 +172,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (_) => const HomeScreen()),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primaryColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6),
                     ),
                   ),
-                  child:  Text(
+                  child: Text(
                     "Login",
                     style: TextStyle(
                       color: Colors.white,

@@ -3,7 +3,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:timesheet/screens/home_screen.dart';
-import 'package:timesheet/screens/login_screen.dart';
+import 'package:timesheet/screens/auth_screens/login_screen.dart';
 import 'package:timesheet/utils/my_images.dart';
 import 'utils/colors.dart';
 
