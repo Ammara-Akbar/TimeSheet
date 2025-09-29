@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:timesheet/screens/add_time_manually_screen.dart';
+import 'package:timesheet/screens/break_overtime_screen.dart';
+import 'package:timesheet/screens/notification_screen.dart';
 import 'package:timesheet/screens/select_project_screen.dart';
+import 'package:timesheet/screens/time_sheet_screen.dart';
 import 'package:timesheet/utils/colors.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -184,11 +188,19 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         centerTitle: true,
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 12),
-            child: Image.asset(
-              "assets/ic_notification.png",
-              height: 22,
+          GestureDetector(
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const NotificationsScreen()),
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 12),
+              child: Image.asset(
+                "assets/ic_notification.png",
+                height: 22,
+              ),
             ),
           )
         ],
@@ -286,9 +298,27 @@ class _HomeScreenState extends State<HomeScreen> {
               childAspectRatio: 1.2,
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                _buildStatCard("assets/clocksicon.png", "Today’s Time", "N/A"),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const TimesheetScreen()),
+                      );
+                    },
+                    child: _buildStatCard(
+                        "assets/clocksicon.png", "Today’s Time", "N/A")),
                 _buildStatCard("assets/thisweek.png", "This Week", "18h 20m"),
-                _buildStatCard("assets/overtime.png", "Overtime", "1h 15m"),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => BreakOvertimeScreen()),
+                      );
+                    },
+                    child: _buildStatCard(
+                        "assets/overtime.png", "Overtime", "1h 15m")),
                 _buildStatCard("assets/absents.png", "Total Absents", "2 Days"),
                 _buildStatCard("assets/leaves.png", "Total Leaves", "1 Day"),
                 _buildStatCard(
@@ -333,7 +363,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       borderRadius: BorderRadius.circular(8)),
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => AddTimeManuallyScreen()),
+                  );
+                },
                 child: const Text(
                   "Manual Entry",
                   style: TextStyle(fontSize: 16, color: Colors.white),
