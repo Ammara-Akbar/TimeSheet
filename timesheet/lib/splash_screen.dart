@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:timesheet/screens/home_screen.dart';
+import 'package:timesheet/screens/login_screen.dart';
 import 'package:timesheet/utils/my_images.dart';
 import 'utils/colors.dart';
 
@@ -21,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(const Duration(seconds: 2), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => const HomeScreen()),
+        MaterialPageRoute(builder: (_) => const LoginScreen()),
       );
     });
   }
@@ -43,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
              Text(
               'Timesheet',
               style: TextStyle(
-                fontSize: 22,
+                fontSize: 40,
                 letterSpacing: 2.6,
                 fontWeight: FontWeight.bold,
                 color: AppColors.primaryColor
