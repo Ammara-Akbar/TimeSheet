@@ -1,8 +1,166 @@
 import 'package:flutter/material.dart';
 import 'package:timesheet/utils/colors.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+enum WorkStatus { notClockedIn, clockedIn, onBreak }
+
+class _HomeScreenState extends State<HomeScreen> {
+  WorkStatus _status = WorkStatus.notClockedIn;
+  DateTime? _clockInTime;
+  DateTime? _clockOutTime;
+
+  // Start work
+  void _clockIn() {
+    setState(() {
+      _status = WorkStatus.clockedIn;
+      _clockInTime = DateTime.now();
+      _clockOutTime = null;
+    });
+  }
+
+  // Take a break
+  void _takeBreak() {
+    setState(() {
+      _status = WorkStatus.onBreak;
+    });
+  }
+
+  // Resume work
+  void _resumeWork() {
+    setState(() {
+      _status = WorkStatus.clockedIn;
+    });
+  }
+
+  // Clock out confirmation
+void _clockOut() async {
+  final confirm = await showDialog(
+    context: context,
+    builder: (context) => Dialog(
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+      insetPadding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // ✅ Title with back arrow
+            Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.arrow_back, color: Colors.black),
+                  onPressed: () => Navigator.pop(context, false),
+                ),
+                const Expanded(
+                  child: Center(
+                    child: Text(
+                      "Clock Out",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 40), // balance for centering
+              ],
+            ),
+
+            const SizedBox(height: 8),
+
+            // ✅ Content
+            const Text(
+              "Are you sure you want to clock out? Once clocked out the time will be added to the Timesheet and cannot be changed.",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.black87,
+              ),
+            ),
+
+            const SizedBox(height: 16),
+            const Divider(height: 1, color: Colors.black26),
+            const SizedBox(height: 16),
+
+            // ✅ Buttons row
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: AppColors.primaryColor),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                    ),
+                    onPressed: () => Navigator.pop(context, false),
+                    child: const Text(
+                      "Cancel",
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.primaryColor,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primaryColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                    ),
+                    onPressed: () => Navigator.pop(context, true),
+                    child: const Text(
+                      "Clock Out",
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+
+  if (confirm == true) {
+    setState(() {
+      _status = WorkStatus.notClockedIn;
+      _clockOutTime = DateTime.now();
+    });
+  }
+}
+
+
+  String _getWorkedTime() {
+    if (_clockInTime == null) return "--:--:--";
+
+    final endTime =
+        (_status == WorkStatus.notClockedIn && _clockOutTime != null)
+            ? _clockOutTime!
+            : DateTime.now();
+
+    final diff = endTime.difference(_clockInTime!);
+    return diff.toString().split('.').first; // hh:mm:ss
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +198,6 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Greeting
             const Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -52,16 +209,17 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const Align(
+            Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "You are not clocked in",
-                style: TextStyle(fontSize: 14.5, color: Colors.black54),
+                _status == WorkStatus.notClockedIn
+                    ? "You are not clocked in"
+                    : "You are clocked in",
+                style: const TextStyle(fontSize: 14.5, color: Colors.black54),
               ),
             ),
             const SizedBox(height: 20),
 
-            // Profile with clock in button
             Column(
               children: [
                 const CircleAvatar(
@@ -82,22 +240,38 @@ class HomeScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 14, color: Colors.black54),
                 ),
                 const SizedBox(height: 15),
-                SizedBox(
-                  width: double.infinity,
-                  height: 45,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
+
+                // ✅ Integrated ClockInOutWidget
+                if (_status == WorkStatus.notClockedIn)
+                  SizedBox(
+                    width: double.infinity,
+                    height: 45,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primaryColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)),
+                      ),
+                      onPressed: _clockIn,
+                      child: const Text("Clock In",
+                          style: TextStyle(fontSize: 16, color: Colors.white)),
                     ),
-                    onPressed: () {},
-                    child: const Text(
-                      "Clock In",
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
+                  )
+                else
+                  ClockInOutWidget(
+                    clockInTime: _clockInTime != null
+                        ? "${_clockInTime!.hour.toString().padLeft(2, '0')}:${_clockInTime!.minute.toString().padLeft(2, '0')} AM"
+                        : "--:--",
+                    clockOutTime: _clockOutTime != null
+                        ? "${_clockOutTime!.hour.toString().padLeft(2, '0')}:${_clockOutTime!.minute.toString().padLeft(2, '0')} PM"
+                        : "-- : --",
+                    workedTime: _getWorkedTime(),
+                    onBreak: _status == WorkStatus.onBreak
+                        ? _resumeWork
+                        : _takeBreak,
+                    onClockOut: _clockOut,
+                    isOnBreak: _status == WorkStatus.onBreak,
                   ),
-                ),
               ],
             ),
 
@@ -124,8 +298,6 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-
-      // ✅ Bottom Bar with buttons
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
         elevation: 8,
@@ -200,6 +372,180 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+// ✅ Updated ClockInOutWidget with Resume toggle
+class ClockInOutWidget extends StatelessWidget {
+  final String clockInTime;
+  final String clockOutTime;
+  final String workedTime;
+  final VoidCallback onBreak;
+  final VoidCallback onClockOut;
+  final bool isOnBreak;
+
+  const ClockInOutWidget({
+    super.key,
+    required this.clockInTime,
+    required this.clockOutTime,
+    required this.workedTime,
+    required this.onBreak,
+    required this.onClockOut,
+    required this.isOnBreak,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        // Clock In / Clock Out row
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade100,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      clockInTime,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    const Text(
+                      "Clock In",
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade100,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      clockOutTime,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    const Text(
+                      "Clock Out",
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+
+        const SizedBox(height: 12),
+
+        // Worked Time
+        Container(
+          height: 45,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: Colors.black26),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Stack(
+            children: [
+              // ✅ Blue filled portion (left side)
+              FractionallySizedBox(
+                alignment: Alignment.centerLeft,
+                widthFactor:
+                    0.5, // 🔹 Adjust this value (0.0 - 1.0) to control fill %
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xff93B5FF),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+
+              // ✅ Center Text (Worked Time)
+              Center(
+                child: Text(
+                  workedTime, // e.g. "03:52:23"
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+
+        // Break / Resume + Clock Out
+        Row(
+          children: [
+            Expanded(
+              child: OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  side: const BorderSide(color: AppColors.primaryColor),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6)),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                ),
+                onPressed: onBreak,
+                child: Text(
+                  isOnBreak ? "Resume" : "Break",
+                  style: const TextStyle(
+                    fontSize: 15,
+                    color: AppColors.primaryColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primaryColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6)),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                ),
+                onPressed: onClockOut,
+                child: const Text(
+                  "Clock Out",
+                  style: TextStyle(fontSize: 15, color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
