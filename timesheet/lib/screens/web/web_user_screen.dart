@@ -2,6 +2,7 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:timesheet/screens/web/web_employee_timesheet_screen.dart';
 import 'package:timesheet/screens/web/web_project_management_screen.dart';
+import 'package:timesheet/screens/web/web_report_screen.dart';
 import 'package:timesheet/utils/colors.dart';
 
 class WebUserScreen extends StatefulWidget {
@@ -71,7 +72,7 @@ class _WebUserScreenState extends State<WebUserScreen> {
       case 2:
         return WebProjectManagementScreen();
       case 3:
-        return const Center(child: Text("Reports Screen UI"));
+        return WebReportScreen();
       default:
         return const SizedBox();
     }

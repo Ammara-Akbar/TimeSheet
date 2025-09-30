@@ -184,7 +184,12 @@ class _WebProjectManagementScreenState
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(8),
                                       borderSide:
-                                          const BorderSide(color: Color(0xFFD1D5DB)),
+                                           BorderSide(color: Colors.grey.shade300),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide:
+                                           BorderSide(color: Colors.grey.shade300),
                                     ),
                                   ),
                                 ),
@@ -292,10 +297,10 @@ class _WebProjectManagementScreenState
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 6),
       decoration: BoxDecoration(
-        color: approved ? const Color(0xFFDCFCE7) : const Color.fromARGB(255, 244, 225, 205),
+        color: approved ? Color(0xFFABEFC6).withOpacity(0.2) : Color(0xffB2DDFF).withOpacity(0.2),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: approved ? const Color.fromARGB(255, 107, 186, 136) : const Color.fromARGB(255, 189, 125, 109),
+          color: approved ? Color(0xFF16A34A).withOpacity(0.4) : const Color(0xffB2DDFF),
         ),
       ),
       child: Text(
@@ -303,7 +308,7 @@ class _WebProjectManagementScreenState
         style: TextStyle(
           fontSize: 10,
           fontWeight: FontWeight.w600,
-          color: approved ? const Color(0xFF16A34A) : const Color(0xFFB93815),
+          color: approved ? const Color(0xFF16A34A) : const Color(0xff175CD3),
         ),
       ),
     );
@@ -526,105 +531,6 @@ void _showAddProjectDialog(BuildContext context) {
     );
   }
 
-  void _showProjectDetailDialog(BuildContext context, Map<String, dynamic> entry) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return Dialog(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          child: Container(
-            width: 500,
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Project Detail",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.close),
-                      onPressed: () => Navigator.pop(context),
-                    )
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    _detailItem("Project Name", entry["name"]),
-                    _divider(),
-                    _detailItem("Employees Assigned", entry["employeesAssigned"].toString()),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    _detailItem("Hours Logged", entry["hoursLogged"]),
-                    _divider(),
-                    _detailItem("Status", entry["status"]),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    OutlinedButton(
-                      onPressed: () => Navigator.pop(context),
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 70, vertical: 20),
-                        side: const BorderSide(
-                          color: AppColors.primaryColor,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: const Text(
-                        "Cancel",
-                        style: TextStyle(
-                          color: AppColors.primaryColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryColor,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 70, vertical: 20),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: const Text(
-                        "Approve",
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   Widget _detailItem(String title, String value) {
     return Expanded(
       child: Column(
@@ -643,12 +549,4 @@ void _showAddProjectDialog(BuildContext context) {
     );
   }
 
-  Widget _divider() {
-    return Container(
-      width: 1,
-      height: 40,
-      color: const Color(0xFFE5E7EB),
-      margin: const EdgeInsets.symmetric(horizontal: 8),
-    );
-  }
 }

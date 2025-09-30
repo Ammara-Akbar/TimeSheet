@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:timesheet/screens/web/web_login_screen.dart';
-import 'package:timesheet/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
      debugShowCheckedModeBanner: false,
       home:
-     WebLoginScreen()
+     WebLoginScreen(),
       // SplashScreen()
     );
   }
