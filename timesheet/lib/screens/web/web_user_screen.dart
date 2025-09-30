@@ -431,10 +431,10 @@ class _WebUserScreenState extends State<WebUserScreen> {
                                       fontSize: 14, color: Color(0xFF6B7280)))),
                               DataCell(Text(user["dept"],
                                   style: const TextStyle(
-                                      fontSize: 14, color: Colors.indigo))),
+                                      fontSize: 14, color: Color(0xFF374151),))),
                               DataCell(Text(user["role"],
                                   style: const TextStyle(
-                                      fontSize: 14, color: Colors.indigo))),
+                                      fontSize: 14,color: Color(0xFF374151),))),
                               DataCell(_statusBadge(user["status"])),
                               DataCell(_actionMenu(user)),
                             ],
@@ -498,7 +498,7 @@ class _WebUserScreenState extends State<WebUserScreen> {
                             child: const Text(
                               "Next",
                               style: TextStyle(
-                                color: AppColors.primaryColor,
+                               color: Color(0xFF374151),
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                               ),
