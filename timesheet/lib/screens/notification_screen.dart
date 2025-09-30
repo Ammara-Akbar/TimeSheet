@@ -26,10 +26,10 @@ class NotificationsScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
-          leading: IconButton(
-            icon: const Icon(Icons.menu, color: Colors.black),
-            onPressed: () {},
-          ),
+          // leading: IconButton(
+          //   icon: const Icon(Icons.menu, color: Colors.black),
+          //   onPressed: () {},
+          // ),
           centerTitle: true,
           title: const Text(
             "Notifications",
@@ -130,18 +130,19 @@ class NotificationsScreen extends StatelessWidget {
                     ),
               ),
               if (showDot)
-                Positioned(
-                  top: 2,
-                  left: 2,
-                  child: Container(
-                    height: 8,
-                    width: 8,
-                    decoration: const BoxDecoration(
-                      color: Colors.blue,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ),
+  Positioned(
+    top: 0,
+    left: 0,
+    child: Container(
+      height: 8,
+      width: 8,
+      decoration: const BoxDecoration(
+        color: Colors.blueAccent,
+        shape: BoxShape.circle,
+      ),
+    ),
+  ),
+
             ],
           ),
           const SizedBox(width: 12),
@@ -167,20 +168,24 @@ class NotificationsScreen extends StatelessWidget {
                 if (buttonText != null) ...[
                   const SizedBox(height: 8),
                   ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryColor,
-                      minimumSize: const Size(140, 36),
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                    ),
-                    onPressed: () {},
-                    child: Text(
-                      buttonText,
-                      style: const TextStyle(fontSize: 13, color: Colors.white),
-                    ),
-                  ),
+  style: ElevatedButton.styleFrom(
+    backgroundColor: AppColors.primaryColor,
+    minimumSize: const Size(140, 36),
+    padding: const EdgeInsets.symmetric(horizontal: 16),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8),
+    ),
+  ),
+  onPressed: () {},
+  child: Text(
+    buttonText!,
+    style: const TextStyle(
+      fontSize: 13,
+      color: Colors.white,
+    ),
+  ),
+),
+
                 ]
               ],
             ),
