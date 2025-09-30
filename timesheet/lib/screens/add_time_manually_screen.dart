@@ -217,7 +217,7 @@ class AddTimeManuallyScreen extends StatelessWidget {
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 14),
                       ),
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: (){},
                       child: Text(
                         "Cancel",
                         style: TextStyle(color: AppColors.primaryColor,fontSize: 17),

@@ -30,10 +30,10 @@ class _TimesheetScreenState extends State<TimesheetScreen> {
           backgroundColor: Colors.white,
           surfaceTintColor: Colors.white,
           elevation: 0,
-          leading: IconButton(
-            icon: const Icon(Icons.menu, color: Colors.black),
-            onPressed: () {},
-          ),
+          // leading: IconButton(
+          //   icon: const Icon(Icons.menu, color: Colors.black),
+          //   onPressed: () {},
+          // ),
           centerTitle: true,
           title: const Text(
             "Timesheet",
@@ -65,49 +65,53 @@ class _TimesheetScreenState extends State<TimesheetScreen> {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              // Replace your "Select" Container with this:
-              PopupMenuButton<String>(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                onSelected: (value) {
-                  // 👉 Do something when user selects
-                  debugPrint("Selected: $value");
-                },
-                itemBuilder: (context) => [
-                  const PopupMenuItem(
-                    value: "Daily",
-                    child: Text("Daily"),
-                  ),
-                  const PopupMenuItem(
-                    value: "Weekly",
-                    child: Text("Weekly"),
-                  ),
-                  const PopupMenuItem(
-                    value: "Monthly",
-                    child: Text("Monthly"),
-                  ),
-                ],
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey.shade400),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    children: const [
-                      Expanded(
-                        child: Text(
-                          "Select",
-                          style: TextStyle(color: Colors.black54),
-                        ),
-                      ),
-                      Icon(Icons.keyboard_arrow_down, color: Colors.black54),
-                    ],
-                  ),
-                ),
-              ),
+            PopupMenuButton<String>(
+              color: Colors.white,
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(8),
+  ),
+  onSelected: (value) {
+    debugPrint("Selected: $value");
+    setState(() {
+      selectedOption = value; // store selection
+    });
+  },
+  // 👇 this aligns the menu to the right
+  offset: const Offset(22, 6), 
+  position: PopupMenuPosition.under,
+  itemBuilder: (context) => [
+    const PopupMenuItem(
+      value: "Daily",
+      child: Text("Daily"),
+    ),
+    const PopupMenuItem(
+      value: "Weekly",
+      child: Text("Weekly"),
+    ),
+    const PopupMenuItem(
+      value: "Monthly",
+      child: Text("Monthly"),
+    ),
+  ],
+  child: Container(
+    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+    decoration: BoxDecoration(
+      border: Border.all(color: Colors.grey.shade400),
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Row(
+      children: [
+        Expanded(
+          child: Text(
+            selectedOption ?? "Select", // show selected option here
+            style: const TextStyle(color: Colors.black),
+          ),
+        ),
+        const Icon(Icons.keyboard_arrow_down, color: Colors.black54),
+      ],
+    ),
+  ),
+),
 
               const SizedBox(height: 16),
 

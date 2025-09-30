@@ -21,10 +21,10 @@ class BreakOvertimeScreen extends StatelessWidget {
           backgroundColor: Colors.white,
           surfaceTintColor: Colors.white,
           elevation: 0,
-          leading: IconButton(
-            icon: const Icon(Icons.menu, color: Colors.black),
-            onPressed: () {},
-          ),
+          // leading: IconButton(
+          //   icon: const Icon(Icons.menu, color: Colors.black),
+          //   onPressed: () {},
+          // ),
           centerTitle: true,
           title: const Text(
             "Break & Overtime",

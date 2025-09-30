@@ -170,41 +170,80 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        surfaceTintColor: Colors.white,
-        elevation: 0,
-        backgroundColor: Colors.white,
-        leading: IconButton(
+       appBar: AppBar(
+      surfaceTintColor: Colors.white,
+      elevation: 0,
+      backgroundColor: Colors.white,
+      leading: Builder(
+        builder: (context) => IconButton(
           icon: const Icon(Icons.menu, color: Colors.black),
-          onPressed: () {},
+          onPressed: () => Scaffold.of(context).openDrawer(),
         ),
-        title: const Text(
-          "Home",
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w600,
-            fontSize: 18,
+      ),
+      title: const Text(
+        "Home",
+        style: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.w600,
+          fontSize: 18,
+        ),
+      ),
+      centerTitle: true,
+      actions: [
+        GestureDetector(
+          onTap: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => const NotificationsScreen()),
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: Image.asset(
+              "assets/ic_notification.png",
+              height: 22,
+            ),
           ),
-        ),
-        centerTitle: true,
-        actions: [
-          GestureDetector(
+        )
+      ],
+    ),
+
+    // ✅ Drawer added
+    drawer: Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          const DrawerHeader(
+            decoration: BoxDecoration(color: AppColors.primaryColor),
+            child: Text(
+              "Menu",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.access_time),
+            title: const Text("Time Sheet"),
             onTap: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (_) => const NotificationsScreen()),
+                MaterialPageRoute(builder: (_) => const TimesheetScreen()),
               );
             },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 12),
-              child: Image.asset(
-                "assets/ic_notification.png",
-                height: 22,
-              ),
-            ),
-          )
+          ),
+          ListTile(
+            leading: const Icon(Icons.breakfast_dining),
+            title: const Text("Break & Overtime"),
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => BreakOvertimeScreen()),
+              );
+            },
+          ),
         ],
       ),
+    ),
+
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -295,30 +334,14 @@ class _HomeScreenState extends State<HomeScreen> {
               shrinkWrap: true,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
-              childAspectRatio: 1.2,
+              childAspectRatio: 1.3,
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                GestureDetector(
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => const TimesheetScreen()),
-                      );
-                    },
-                    child: _buildStatCard(
-                        "assets/clocksicon.png", "Today’s Time", "N/A")),
+                _buildStatCard(
+                    "assets/clocksicon.png", "Today’s Time", "N/A"),
                 _buildStatCard("assets/thisweek.png", "This Week", "18h 20m"),
-                GestureDetector(
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => BreakOvertimeScreen()),
-                      );
-                    },
-                    child: _buildStatCard(
-                        "assets/overtime.png", "Overtime", "1h 15m")),
+                _buildStatCard(
+                    "assets/overtime.png", "Overtime", "1h 15m"),
                 _buildStatCard("assets/absents.png", "Total Absents", "2 Days"),
                 _buildStatCard("assets/leaves.png", "Total Leaves", "1 Day"),
                 _buildStatCard(
@@ -328,9 +351,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        elevation: 8,
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(bottom: 12, left: 16, right: 16, top: 5),
         child: Row(
           children: [
             Expanded(
