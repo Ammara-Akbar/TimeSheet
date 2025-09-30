@@ -813,6 +813,8 @@ class _WebUserScreenState extends State<WebUserScreen> {
     );
   }
 
+
+
   void _showUserDetailDialog(BuildContext context, Map<String, dynamic> user) {
     showDialog(
       context: context,
