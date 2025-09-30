@@ -539,9 +539,9 @@ class _WebEmployeeTimesheetScreenState
                 Row(
                   children: [
                     _detailItem("Employee Name", entry["name"]),
-                    _divider(),
+                   
                     _detailItem("Date", entry["date"]),
-                    _divider(),
+                   
                     _detailItem("Clock In", entry["clockIn"]),
                   ],
                 ),
@@ -549,9 +549,9 @@ class _WebEmployeeTimesheetScreenState
                 Row(
                   children: [
                     _detailItem("Clock Out", entry["clockOut"]),
-                    _divider(),
+                    
                     _detailItem("Break", entry["break"]),
-                    _divider(),
+                   
                     _detailItem("Overtime", entry["overtime"]),
                   ],
                 ),
@@ -629,12 +629,4 @@ class _WebEmployeeTimesheetScreenState
     );
   }
 
-  Widget _divider() {
-    return Container(
-      width: 1,
-      height: 40,
-      color: const Color(0xFFE5E7EB),
-      margin: const EdgeInsets.symmetric(horizontal: 8),
-    );
-  }
 }
