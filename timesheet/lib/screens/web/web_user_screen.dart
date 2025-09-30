@@ -273,7 +273,9 @@ class _WebUserScreenState extends State<WebUserScreen> {
                                       ),
                                       elevation: 0,
                                     ),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      _showAddUserDialog(context);
+                                    },
                                     child: const Text(
                                       "Add User",
                                       style: TextStyle(
@@ -371,73 +373,77 @@ class _WebUserScreenState extends State<WebUserScreen> {
                         ),
                 ),
 
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: isDesktop ? 24.0 : 16.0,
+                      right: isDesktop ? 24.0 : 16.0,
+                      bottom: isDesktop ? 24.0 : 16.0,
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: const Color(0xFFE5E7EB)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.08),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: DataTable2(
+                        columnSpacing: isDesktop ? 60 : 30,
+                        horizontalMargin: 20,
+                        headingRowHeight: 48,
+                        dataRowHeight: 72,
+                        headingRowColor:
+                            MaterialStateProperty.all(const Color(0xFFF9FAFB)),
+                        minWidth: MediaQuery.of(context).size.width -
+                            (isDesktop ? 298 : 48),
 
-Expanded(
-  child: Padding(
-    padding: EdgeInsets.only(
-      left: isDesktop ? 24.0 : 16.0,
-      right: isDesktop ? 24.0 : 16.0,
-      bottom: isDesktop ? 24.0 : 16.0,
-    ),
-    child: Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: DataTable2(
-        columnSpacing: isDesktop ? 60 : 30,
-        horizontalMargin: 20,
-        headingRowHeight: 48,
-        dataRowHeight: 72,
-        headingRowColor: MaterialStateProperty.all(const Color(0xFFF9FAFB)),
-        minWidth: MediaQuery.of(context).size.width - (isDesktop ? 298 : 48),
+                        // ✅ FIX: This makes body rows scrollable, headers stay fixed
+                        headingTextStyle: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12,
+                          color: Color(0xFF6B7280),
+                        ),
+                        columns: const [
+                          DataColumn(label: Text("Name")),
+                          DataColumn(label: Text("Email")),
+                          DataColumn(label: Text("Department")),
+                          DataColumn(label: Text("Role")),
+                          DataColumn(label: Text("Status")),
+                          DataColumn(label: Text("Action")),
+                        ],
 
-        // ✅ FIX: This makes body rows scrollable, headers stay fixed
-        headingTextStyle: const TextStyle(
-          fontWeight: FontWeight.w600,
-          fontSize: 12,
-          color: Color(0xFF6B7280),
-        ),
-        columns: const [
-          DataColumn(label: Text("Name")),
-          DataColumn(label: Text("Email")),
-          DataColumn(label: Text("Department")),
-          DataColumn(label: Text("Role")),
-          DataColumn(label: Text("Status")),
-          DataColumn(label: Text("Action")),
-        ],
-
-        rows: users.map((user) {
-          return DataRow(
-            cells: [
-              DataCell(Text(user["name"],
-                  style: const TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF111827),
-                      fontWeight: FontWeight.w500))),
-              DataCell(Text(user["email"],
-                  style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280)))),
-              DataCell(Text(user["dept"],
-                  style: const TextStyle(fontSize: 14, color: Colors.indigo))),
-              DataCell(Text(user["role"],
-                  style: const TextStyle(fontSize: 14, color: Colors.indigo))),
-              DataCell(_statusBadge(user["status"])),
-              DataCell(_actionMenu()),
-            ],
-          );
-        }).toList(),
-      ),
-    ),
-  ),
-),
+                        rows: users.map((user) {
+                          return DataRow(
+                            cells: [
+                              DataCell(Text(user["name"],
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFF111827),
+                                      fontWeight: FontWeight.w500))),
+                              DataCell(Text(user["email"],
+                                  style: const TextStyle(
+                                      fontSize: 14, color: Color(0xFF6B7280)))),
+                              DataCell(Text(user["dept"],
+                                  style: const TextStyle(
+                                      fontSize: 14, color: Colors.indigo))),
+                              DataCell(Text(user["role"],
+                                  style: const TextStyle(
+                                      fontSize: 14, color: Colors.indigo))),
+                              DataCell(_statusBadge(user["status"])),
+                              DataCell(_actionMenu(user)),
+                            ],
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ),
+                ),
 
                 // Pagination
                 Padding(
@@ -446,16 +452,13 @@ Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                     
-                        const Text(
-                          "Page 1 of 10",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Color(0xFF6B7280),
-                          ),
-                        )
-                      
-                        ,
+                      const Text(
+                        "Page 1 of 10",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFF6B7280),
+                        ),
+                      ),
                       Row(
                         children: [
                           OutlinedButton(
@@ -591,9 +594,16 @@ Expanded(
     );
   }
 
-  Widget _actionMenu() {
+  Widget _actionMenu(Map<String, dynamic> user) {
     return PopupMenuButton<String>(
+      color: Colors.white,
       padding: EdgeInsets.zero,
+      onSelected: (value) {
+        if (value == "view") {
+          _showUserDetailDialog(context, user);
+        }
+        // Add edit/delete logic here if needed
+      },
       itemBuilder: (context) => [
         const PopupMenuItem(
           value: "view",
@@ -612,6 +622,233 @@ Expanded(
         Icons.more_vert,
         size: 20,
         color: Color(0xFF6B7280),
+      ),
+    );
+  }
+
+  void _showAddUserDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Container(
+            width: 500,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Add a User",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF111827),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close, color: Colors.black),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+
+                // Input Fields
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        decoration: _inputDecoration("Enter Name"),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: TextField(
+                        decoration: _inputDecoration("Enter Email Address"),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        decoration: _inputDecoration("Enter Department"),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: TextField(
+                        decoration: _inputDecoration("Enter Role"),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+
+                // Buttons
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    OutlinedButton(
+                      onPressed: () => Navigator.pop(context),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 70, vertical: 20),
+                        side: const BorderSide(color: AppColors.primaryColor,),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: const Text(
+                        "Cancel",
+                        style: TextStyle(
+                          color: AppColors.primaryColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primaryColor,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 70, vertical: 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: const Text(
+                        "Save",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  InputDecoration _inputDecoration(String hint) {
+    return InputDecoration(
+      hintText: hint,
+      hintStyle: const TextStyle(fontSize: 14, color: Color(0xFF9CA3AF)),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: const BorderSide(color: Color(0xFFD1D5DB)),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: const BorderSide(color: Color(0xFFD1D5DB)),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: const BorderSide(color: AppColors.primaryColor, width: 2),
+      ),
+    );
+  }
+
+  void _showUserDetailDialog(BuildContext context, Map<String, dynamic> user) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Container(
+            width: 450,
+            height: 200,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                // Header
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "User Detail",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF111827),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close, color: Colors.black),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+
+                // User Info
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _userDetailItem("Name", user["name"]),
+                    _userDetailItem("Email", user["email"]),
+                    _userDetailItem("Department", user["dept"]),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                _userDetailItem("Role", user["role"]),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _userDetailItem(String title, String value) {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
+              color: Color(0xFF374151),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 12,
+              color: Color(0xFF111827),
+            ),
+          ),
+        ],
       ),
     );
   }
