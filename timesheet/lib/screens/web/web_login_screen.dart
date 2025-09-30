@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timesheet/screens/web/web_user_screen.dart';
 import 'package:timesheet/utils/colors.dart';
 
 class WebLoginScreen extends StatelessWidget {
@@ -180,7 +181,10 @@ class _LoginCardState extends State<LoginCard> {
                       ),
                     ),
                     onPressed: () {
-                      // handle login
+                       Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => WebUserScreen()),
+              );
                     },
                     child: const Text(
                       "Login",
