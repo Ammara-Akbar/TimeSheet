@@ -518,9 +518,12 @@ class _WebUserScreenState extends State<WebUserScreen> {
               ],
             ),
           ),
+       
         ],
       ),
     );
+ 
+ 
   }
 
   Widget _buildDataTable() {
@@ -650,11 +653,19 @@ class _WebUserScreenState extends State<WebUserScreen> {
   }
 
   Widget _actionMenu(Map<String, dynamic> user) {
-    return PopupMenuButton(
+    return PopupMenuButton<String>(
+      color: Colors.white,
       icon: const Icon(Icons.more_vert, size: 20),
+      onSelected: (value) {
+        if (value == "view") {
+          _showUserDetailDialog(context, user);
+        }
+        // Add edit/delete logic here if needed
+      },
       itemBuilder: (context) => [
-        const PopupMenuItem(value: 'edit', child: Text('Edit')),
-        const PopupMenuItem(value: 'delete', child: Text('Delete')),
+        const PopupMenuItem(value: "view", child: Text("View")),
+        const PopupMenuItem(value: "edit", child: Text("Edit")),
+        const PopupMenuItem(value: "delete", child: Text("Delete")),
       ],
     );
   }
