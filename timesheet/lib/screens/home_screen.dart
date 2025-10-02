@@ -214,7 +214,9 @@ class _HomeScreenState extends State<HomeScreen> {
     padding: EdgeInsets.zero,
     children: [
       UserAccountsDrawerHeader(
+        
         decoration: const BoxDecoration(
+          
           color: AppColors.primaryColor,
         ),
         accountName: const Text(
@@ -304,7 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const CircleAvatar(
                   radius: 45,
                   backgroundImage: NetworkImage(
-                      "https://randomuser.me/api/portraits/men/41.jpg"),
+                      "https://i.pravatar.cc/150?img=5"),
                 ),
                 const SizedBox(height: 10),
                 const Text(

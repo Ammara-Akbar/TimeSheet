@@ -156,104 +156,270 @@ class _WebProjectManagementScreenState
               ),
             ),
            // 🔹 Summary cards row
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                children: [
-                  _summaryCard("Active Projects", "6"),
-                  _summaryCard("Completed Projects", "12"),
-                  _summaryCard("Employees Assigned", "28"),
-                  _summaryCard("Hours Logged (This Week)", "420h 35m"),
-                ],
-              ),
+              Wrap(
+              alignment: WrapAlignment.start,
+              spacing: 12,
+              runSpacing: 12,
+              children: [
+                SizedBox(
+                   width: isDesktop
+                      ? (screenWidth / 5) - 40
+                      : (screenWidth / 2) - 30,
+            
+                  child: _summaryCard("Active Projects", "6")),
+                SizedBox(
+                   width: isDesktop
+                      ? (screenWidth / 5) - 40
+                      : (screenWidth / 2) - 30,
+                  child: _summaryCard("Completed Projects", "12")),
+                SizedBox(
+                   width: isDesktop
+                      ? (screenWidth / 5) - 40
+                      : (screenWidth / 2) - 30,
+                  child: _summaryCard("Employees Assigned", "28")),
+                SizedBox(
+                   width: isDesktop
+                      ? (screenWidth / 5) - 40
+                      : (screenWidth / 2) - 30,
+                  child: _summaryCard("Hours Logged (This Week)", "420h 35m")),
+              ],
             ),
             const SizedBox(height: 16),
           
-            // Table title and search bar
+            // // Table title and search bar
+            // Container(
+            //   padding: const EdgeInsets.all(20.0),
+            //   decoration: const BoxDecoration(
+            //     border: Border(
+            //       bottom: BorderSide(color: Color(0xFFE5E7EB)),
+            //     ),
+            //   ),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: [
+            //       const Text(
+            //         "All Projects",
+            //         style: TextStyle(
+            //           fontSize: 18,
+            //           fontWeight: FontWeight.w600,
+            //           color: Color(0xFF111827),
+            //         ),
+            //       ),
+            //       Row(
+            //         children: [
+            //           SizedBox(
+            //             width: 280,
+            //             height: 40,
+            //             child: TextField(
+            //               decoration: InputDecoration(
+            //                 hintText: "Search",
+            //                 hintStyle: const TextStyle(
+            //                   color: Color(0xFF9CA3AF),
+            //                   fontSize: 14,
+            //                 ),
+            //                 prefixIcon: const Icon(
+            //                   Icons.search,
+            //                   size: 20,
+            //                   color: Color(0xFF9CA3AF),
+            //                 ),
+            //                 contentPadding: const EdgeInsets.symmetric(
+            //                   horizontal: 12,
+            //                   vertical: 10,
+            //                 ),
+            //                 border: OutlineInputBorder(
+            //                   borderRadius: BorderRadius.circular(8),
+            //                   borderSide:
+            //                       BorderSide(color: Colors.grey.shade300),
+            //                 ),
+            //                 enabledBorder: OutlineInputBorder(
+            //                   borderRadius: BorderRadius.circular(8),
+            //                   borderSide:
+            //                       BorderSide(color: Colors.grey.shade300),
+            //                 ),
+            //               ),
+            //             ),
+            //           ),
+            //           const SizedBox(width: 12),
+            //           SizedBox(
+            //             height: 40,
+            //             child: ElevatedButton(
+            //               style: ElevatedButton.styleFrom(
+            //                 backgroundColor: AppColors.primaryColor,
+            //                 foregroundColor: Colors.white,
+            //                 padding: const EdgeInsets.symmetric(
+            //                     horizontal: 20, vertical: 10),
+            //                 shape: RoundedRectangleBorder(
+            //                   borderRadius: BorderRadius.circular(8),
+            //                 ),
+            //                 elevation: 0,
+            //               ),
+            //               onPressed: () {
+            //                 _showAddProjectDialog(context);
+            //               },
+            //               child: const Text(
+            //                 "Create a New Project",
+            //                 style: TextStyle(
+            //                   fontSize: 14,
+            //                   fontWeight: FontWeight.w600,
+            //                 ),
+            //               ),
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     ],
+            //   ),
+            // ),
+           
             Container(
               padding: const EdgeInsets.all(20.0),
               decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: Color(0xFFE5E7EB)),
-                ),
+                border: Border(bottom: BorderSide(color: Color(0xFFE5E7EB))),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "All Projects",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF111827),
+              child: isTablet || !isDesktop
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "All Projects",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF111827),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: SizedBox(
+                                height: 40,
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                    hintText: "Search",
+                                    hintStyle: const TextStyle(
+                                      color: Color(0xFF9CA3AF),
+                                      fontSize: 14,
+                                    ),
+                                    prefixIcon: const Icon(Icons.search,
+                                        size: 20, color: Color(0xFF9CA3AF)),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 10),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: BorderSide(
+                                          color: Colors.grey.shade300),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: BorderSide(
+                                          color: Colors.grey.shade300),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            SizedBox(
+                              height: 40,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.primaryColor,
+                                  foregroundColor: Colors.white,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  elevation: 0,
+                                ),
+                                onPressed: () {
+                                   _showAddProjectDialog(context);
+                                },
+                                child: const Text(
+                                  "Create New Project",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "All Projects",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF111827),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: 280,
+                              height: 40,
+                              child: TextField(
+                                  decoration: InputDecoration(
+                                    hintText: "Search",
+                                    hintStyle: const TextStyle(
+                                      color: Color(0xFF9CA3AF),
+                                      fontSize: 14,
+                                    ),
+                                    prefixIcon: const Icon(Icons.search,
+                                        size: 20, color: Color(0xFF9CA3AF)),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 10),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: BorderSide(
+                                          color: Colors.grey.shade300),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: BorderSide(
+                                          color: Colors.grey.shade300),
+                                    ),
+                                  ),
+                                ),
+                            ),
+                            const SizedBox(width: 12),
+                                  SizedBox(
+                              height: 40,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.primaryColor,
+                                  foregroundColor: Colors.white,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  elevation: 0,
+                                ),
+                                onPressed: () {},
+                                child: const Text(
+                                   "Create New Project",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 280,
-                        height: 40,
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: "Search",
-                            hintStyle: const TextStyle(
-                              color: Color(0xFF9CA3AF),
-                              fontSize: 14,
-                            ),
-                            prefixIcon: const Icon(
-                              Icons.search,
-                              size: 20,
-                              color: Color(0xFF9CA3AF),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 10,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide:
-                                  BorderSide(color: Colors.grey.shade300),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide:
-                                  BorderSide(color: Colors.grey.shade300),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      SizedBox(
-                        height: 40,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primaryColor,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 10),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            elevation: 0,
-                          ),
-                          onPressed: () {
-                            _showAddProjectDialog(context);
-                          },
-                          child: const Text(
-                            "Create a New Project",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
             ),
-           
+
+
             // Data table for projects
             Padding(
               padding: EdgeInsets.all(isDesktop ? 24.0 : 16.0),
@@ -360,7 +526,7 @@ class _WebProjectManagementScreenState
     return Expanded(
       child: Container(
         margin: const EdgeInsets.only(right: 12),
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(17),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
@@ -377,7 +543,7 @@ class _WebProjectManagementScreenState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(title,
-                style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280))),
+                style: const TextStyle(fontSize: 12, color: Color(0xFF6B7280))),
             const SizedBox(height: 6),
             Text(value,
                 style: const TextStyle(
@@ -389,7 +555,6 @@ class _WebProjectManagementScreenState
       ),
     );
   }
-
 void _showUserDetailDialog(BuildContext context) {
   showDialog(
     context: context,

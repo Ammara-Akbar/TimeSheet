@@ -41,7 +41,7 @@ class _WebEmployeeTimesheetScreenState
       "overtime": "25m",
       "status": "Approved"
     },
-     {
+    {
       "name": "John Smith",
       "date": "01 Sep 25",
       "clockIn": "09:00 AM",
@@ -107,7 +107,8 @@ class _WebEmployeeTimesheetScreenState
                     children: [
                       if (!isDesktop)
                         IconButton(
-                          icon: const Icon(Icons.menu, color: Color(0xFF111827)),
+                          icon:
+                              const Icon(Icons.menu, color: Color(0xFF111827)),
                           onPressed: () {
                             _scaffoldKey.currentState?.openDrawer();
                           },
@@ -171,17 +172,37 @@ class _WebEmployeeTimesheetScreenState
               ),
             ),
 
-            // 🔹 Summary cards row
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                children: [
-                  _summaryCard("Total Hours (This Week)", "420h 35m"),
-                  _summaryCard("Overtime (This Week)", "32h 15m"),
-                  _summaryCard("Absents (This Week)", "12 Days"),
-                  _summaryCard("Leaves (This Week)", "5 Days"),
-                ],
-              ),
+            Wrap(
+              alignment: WrapAlignment.start,
+              spacing: 12,
+              runSpacing: 12,
+              children: [
+                // Adjust width for desktop/tablet/phone
+                SizedBox(
+                  width: isDesktop
+                      ? (screenWidth / 5) - 40
+                      : (screenWidth / 2) - 30,
+                  child: _summaryCard("Total Hours (This Week)", "420h 35m"),
+                ),
+                SizedBox(
+                  width: isDesktop
+                      ? (screenWidth / 5) - 40
+                      : (screenWidth / 2) - 30,
+                  child: _summaryCard("Overtime (This Week)", "32h 15m"),
+                ),
+                SizedBox(
+                  width: isDesktop
+                      ? (screenWidth / 5) - 40
+                      : (screenWidth / 2) - 30,
+                  child: _summaryCard("Absents (This Week)", "12 Days"),
+                ),
+                SizedBox(
+                  width: isDesktop
+                      ? (screenWidth / 5) - 40
+                      : (screenWidth / 2) - 30,
+                  child: _summaryCard("Leaves (This Week)", "5 Days"),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
 
@@ -222,8 +243,7 @@ class _WebEmployeeTimesheetScreenState
                                     size: 20,
                                     color: Color(0xFF9CA3AF),
                                   ),
-                                  contentPadding:
-                                      const EdgeInsets.symmetric(
+                                  contentPadding: const EdgeInsets.symmetric(
                                     horizontal: 12,
                                     vertical: 10,
                                   ),
@@ -312,21 +332,18 @@ class _WebEmployeeTimesheetScreenState
                                       size: 20,
                                       color: Color(0xFF9CA3AF),
                                     ),
-                                    contentPadding:
-                                        const EdgeInsets.symmetric(
+                                    contentPadding: const EdgeInsets.symmetric(
                                       horizontal: 12,
                                       vertical: 10,
                                     ),
                                     border: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(8),
+                                      borderRadius: BorderRadius.circular(8),
                                       borderSide: const BorderSide(
                                         color: Color(0xFFD1D5DB),
                                       ),
                                     ),
                                     enabledBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(8),
+                                      borderRadius: BorderRadius.circular(8),
                                       borderSide: const BorderSide(
                                         color: Color(0xFFD1D5DB),
                                       ),
@@ -336,28 +353,32 @@ class _WebEmployeeTimesheetScreenState
                               ),
                             ),
                             const SizedBox(width: 12),
-                            SizedBox(
+                            Container(
                               height: 40,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColors.primaryColor,
-                                  foregroundColor: Colors.white,
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 12,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  elevation: 0,
-                                ),
-                                onPressed: () {},
-                                child: const Text(
-                                  "Add User",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Color(0xFFE5E7EB)),
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Image.asset(
+                                      "assets/calendar.png",
+                                      height: 20,
+                                    ),
+                                    SizedBox(
+                                      width: 7,
+                                    ),
+                                    Text(
+                                      "Select Dates",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey.shade400,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -467,7 +488,6 @@ class _WebEmployeeTimesheetScreenState
           ],
         ),
       ),
-   
     );
   }
 
@@ -599,10 +619,15 @@ class _WebEmployeeTimesheetScreenState
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 6),
       decoration: BoxDecoration(
-        color: approved ? const Color(0xFFDCFCE7) : const Color.fromARGB(255, 244, 225, 205),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all( color: approved ? const Color.fromARGB(255, 107, 186, 136) : const Color.fromARGB(255, 189, 125, 109),)
-      ),
+          color: approved
+              ? const Color(0xFFDCFCE7)
+              : const Color.fromARGB(255, 244, 225, 205),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: approved
+                ? const Color.fromARGB(255, 107, 186, 136)
+                : const Color.fromARGB(255, 189, 125, 109),
+          )),
       child: Center(
         child: Text(
           status,
@@ -759,7 +784,7 @@ class _WebEmployeeTimesheetScreenState
     return Expanded(
       child: Container(
         margin: const EdgeInsets.only(right: 12),
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(17),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
@@ -776,7 +801,7 @@ class _WebEmployeeTimesheetScreenState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(title,
-                style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280))),
+                style: const TextStyle(fontSize: 12, color: Color(0xFF6B7280))),
             const SizedBox(height: 6),
             Text(value,
                 style: const TextStyle(

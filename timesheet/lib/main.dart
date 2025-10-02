@@ -16,8 +16,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
      debugShowCheckedModeBanner: false,
       home:
-    //  WebLoginScreen(),
-      SplashScreen()
+    WebLoginScreen(),
+      // SplashScreen()
     );
   }
 }
