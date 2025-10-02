@@ -209,40 +209,68 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
 
     // ✅ Drawer added
-    drawer: Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(color: AppColors.primaryColor),
-            child: Text(
-              "Menu",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
+  drawer: Drawer(
+  child: ListView(
+    padding: EdgeInsets.zero,
+    children: [
+      UserAccountsDrawerHeader(
+        decoration: const BoxDecoration(
+          color: AppColors.primaryColor,
+        ),
+        accountName: const Text(
+          "Olivia Rhye",
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+        ),
+        accountEmail: const Text(
+          "olivia.rhye@gmail.com",
+          style: TextStyle(fontSize: 14),
+        ),
+        currentAccountPicture: const CircleAvatar(
+          backgroundImage: NetworkImage(
+            "https://i.pravatar.cc/150?img=5", // Replace with your profile pic URL
           ),
-          ListTile(
-            leading: const Icon(Icons.access_time),
-            title: const Text("Time Sheet"),
-            onTap: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (_) => const TimesheetScreen()),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.breakfast_dining),
-            title: const Text("Break & Overtime"),
-            onTap: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (_) => BreakOvertimeScreen()),
-              );
-            },
-          ),
-        ],
+        ),
       ),
-    ),
+      ListTile(
+        leading:  Icon(Icons.home,color: Colors.grey.shade500,),
+        title: const Text("Home"),
+        onTap: () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const HomeScreen()),
+          );
+        },
+      ),
+      ListTile(
+        leading:  Icon(Icons.list_alt,color: Colors.grey.shade500,),
+        title: const Text("projects"),
+        onTap: () {
+          
+        },
+      ),
+      ListTile(
+        leading:  Icon(Icons.access_time,color: Colors.grey.shade500,),
+        title: const Text("Time Sheet"),
+        onTap: () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const TimesheetScreen()),
+          );
+        },
+      ),
+      ListTile(
+        leading:  Icon(Icons.breakfast_dining,color: Colors.grey.shade500,),
+        title: const Text("Break & Overtime"),
+        onTap: () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => BreakOvertimeScreen()),
+          );
+        },
+      ),
+    ],
+  ),
+),
 
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
