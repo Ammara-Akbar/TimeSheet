@@ -13,6 +13,8 @@ class WebProjectManagementScreen extends StatefulWidget {
 class _WebProjectManagementScreenState
     extends State<WebProjectManagementScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  int _selectedIndex = 2;
+
 
   final List<Map<String, dynamic>> projects = [
     {
@@ -62,6 +64,8 @@ class _WebProjectManagementScreenState
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
+       drawer: (isDesktop) ? null : _buildDrawer(),
+
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -185,92 +189,7 @@ class _WebProjectManagementScreenState
               ],
             ),
             const SizedBox(height: 16),
-          
-            // // Table title and search bar
-            // Container(
-            //   padding: const EdgeInsets.all(20.0),
-            //   decoration: const BoxDecoration(
-            //     border: Border(
-            //       bottom: BorderSide(color: Color(0xFFE5E7EB)),
-            //     ),
-            //   ),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     children: [
-            //       const Text(
-            //         "All Projects",
-            //         style: TextStyle(
-            //           fontSize: 18,
-            //           fontWeight: FontWeight.w600,
-            //           color: Color(0xFF111827),
-            //         ),
-            //       ),
-            //       Row(
-            //         children: [
-            //           SizedBox(
-            //             width: 280,
-            //             height: 40,
-            //             child: TextField(
-            //               decoration: InputDecoration(
-            //                 hintText: "Search",
-            //                 hintStyle: const TextStyle(
-            //                   color: Color(0xFF9CA3AF),
-            //                   fontSize: 14,
-            //                 ),
-            //                 prefixIcon: const Icon(
-            //                   Icons.search,
-            //                   size: 20,
-            //                   color: Color(0xFF9CA3AF),
-            //                 ),
-            //                 contentPadding: const EdgeInsets.symmetric(
-            //                   horizontal: 12,
-            //                   vertical: 10,
-            //                 ),
-            //                 border: OutlineInputBorder(
-            //                   borderRadius: BorderRadius.circular(8),
-            //                   borderSide:
-            //                       BorderSide(color: Colors.grey.shade300),
-            //                 ),
-            //                 enabledBorder: OutlineInputBorder(
-            //                   borderRadius: BorderRadius.circular(8),
-            //                   borderSide:
-            //                       BorderSide(color: Colors.grey.shade300),
-            //                 ),
-            //               ),
-            //             ),
-            //           ),
-            //           const SizedBox(width: 12),
-            //           SizedBox(
-            //             height: 40,
-            //             child: ElevatedButton(
-            //               style: ElevatedButton.styleFrom(
-            //                 backgroundColor: AppColors.primaryColor,
-            //                 foregroundColor: Colors.white,
-            //                 padding: const EdgeInsets.symmetric(
-            //                     horizontal: 20, vertical: 10),
-            //                 shape: RoundedRectangleBorder(
-            //                   borderRadius: BorderRadius.circular(8),
-            //                 ),
-            //                 elevation: 0,
-            //               ),
-            //               onPressed: () {
-            //                 _showAddProjectDialog(context);
-            //               },
-            //               child: const Text(
-            //                 "Create a New Project",
-            //                 style: TextStyle(
-            //                   fontSize: 14,
-            //                   fontWeight: FontWeight.w600,
-            //                 ),
-            //               ),
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ],
-            //   ),
-            // ),
-           
+
             Container(
               padding: const EdgeInsets.all(20.0),
               decoration: const BoxDecoration(
@@ -514,6 +433,67 @@ class _WebProjectManagementScreenState
                     ],
                   ),
                 ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+  
+  Widget _buildDrawer() {
+    return Drawer(
+      child: Container(
+        color: AppColors.primaryColor,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(24.0),
+              child: Text(
+                "Timesheet",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            _sidebarItem("assets/user.png", "Users", 0),
+            _sidebarItem("assets/user.png", "Employee Timesheet", 1),
+            _sidebarItem("assets/manage.png", "Project Management", 2),
+            _sidebarItem("assets/reprts.png", "Reports", 3),
+          ],
+        ),
+      ),
+    );
+  }
+  
+  Widget _sidebarItem(String iconPath, String title, int index) {
+    final isSelected = _selectedIndex == index;
+    return InkWell(
+      onTap: () {
+        setState(() {
+          _selectedIndex = index;
+        });
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.white.withOpacity(0.1) : Colors.transparent,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          children: [
+            Image.asset(iconPath, width: 20, height: 20, color: Colors.white),
+            const SizedBox(width: 12),
+            Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ],

@@ -12,7 +12,7 @@ class WebEmployeeTimesheetScreen extends StatefulWidget {
 class _WebEmployeeTimesheetScreenState
     extends State<WebEmployeeTimesheetScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
+  int _selectedIndex = 2;
   final List<Map<String, dynamic>> timesheet = [
     {
       "name": "John Smith",
@@ -79,6 +79,8 @@ class _WebEmployeeTimesheetScreenState
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
+       drawer: (isDesktop) ? null : _buildDrawer(),
+
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -491,6 +493,66 @@ class _WebEmployeeTimesheetScreenState
     );
   }
 
+  Widget _buildDrawer() {
+    return Drawer(
+      child: Container(
+        color: AppColors.primaryColor,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(24.0),
+              child: Text(
+                "Timesheet",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            _sidebarItem("assets/user.png", "Users", 0),
+            _sidebarItem("assets/user.png", "Employee Timesheet", 1),
+            _sidebarItem("assets/manage.png", "Project Management", 2),
+            _sidebarItem("assets/reprts.png", "Reports", 3),
+          ],
+        ),
+      ),
+    );
+  }
+  
+  Widget _sidebarItem(String iconPath, String title, int index) {
+    final isSelected = _selectedIndex == index;
+    return InkWell(
+      onTap: () {
+        setState(() {
+          _selectedIndex = index;
+        });
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.white.withOpacity(0.1) : Colors.transparent,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          children: [
+            Image.asset(iconPath, width: 20, height: 20, color: Colors.white),
+            const SizedBox(width: 12),
+            Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
   Widget _buildDataTable() {
     return Table(
       border: TableBorder.all(

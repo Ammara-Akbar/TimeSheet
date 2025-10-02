@@ -210,6 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // ✅ Drawer added
   drawer: Drawer(
+    backgroundColor: Colors.white,
   child: ListView(
     padding: EdgeInsets.zero,
     children: [
@@ -247,7 +248,10 @@ class _HomeScreenState extends State<HomeScreen> {
         leading:  Icon(Icons.list_alt,color: Colors.grey.shade500,),
         title: const Text("projects"),
         onTap: () {
-          
+           Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const SelectProjectScreen()),
+          );
         },
       ),
       ListTile(
